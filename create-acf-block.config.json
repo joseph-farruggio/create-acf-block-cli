@@ -1,7 +1,0 @@
-{
-    "blockNamespace": "acf",
-    "useBlockJSON": true,
-    "registrationFileDir": ".\/test-theme\/inc",
-    "blocksDirPath": ".\/test-theme\/blocks",
-    "blockAssets": false
-}
