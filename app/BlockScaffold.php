@@ -17,23 +17,23 @@ class BlockScaffold
     public function __construct(PathService $pathService)
     {
         if (File::exists('./acf-block-cli.config.json')) {
-            $this->config = json_decode(File::get('./acf-block-cli.config.json'), true);
+            $config = json_decode(File::get('./acf-block-cli.config.json'), true);
         } else {
-            $this->config = [];
+            $config = [];
         }
 
         $this->pathService = $pathService;
         $this->stubDir     = $this->pathService->base_path('resources/stubs');
     }
 
-    public function handle($block)
+    public function handle($config, $block)
     {
         $this->block = $block;
 
         /** 
          * Create the block directory
          */
-        $this->blockDir = $this->config['blocksDirPath'] . '/' . $block['name'];
+        $this->blockDir = $config['blocksDirPath'] . '/' . $block['name'];
         if (!File::exists($this->blockDir)) {
             File::makeDirectory($this->blockDir, recursive: true);
         }
@@ -63,7 +63,7 @@ class BlockScaffold
         /**
          * Create the block.json file
          */
-        if ($this->config['useBlockJSON']) {
+        if ($config['useBlockJSON']) {
             $jsonFileContents = [
                 'name'        => $block['name'],
                 'title'       => $block['title'],
@@ -89,8 +89,8 @@ class BlockScaffold
         /**
          * Create the block.css file
          */
-        if ($this->config['blockAssets']) {
-            if ($this->config['groupBlockAssets']) {
+        if ($config['blockAssets']) {
+            if ($config['groupBlockAssets']) {
                 $blockCSSContents = File::get($this->stubDir . '/block.css.stub');
                 $blockCSSContents = str_replace('{{blockName}}', $block['name'], $blockCSSContents);
                 File::put($this->blockDir . '/block.css', $blockCSSContents);
@@ -98,8 +98,8 @@ class BlockScaffold
             } else {
                 $blockCSSContents = File::get($this->stubDir . '/block.css.stub');
                 $blockCSSContents = str_replace('{{blockName}}', $block['name'], $blockCSSContents);
-                File::put($this->config['blockCssDirPath'] . '/' . $block['name'] . '.css', $blockCSSContents);
-                File::put($this->config['blockJsDirPath'] . '/' . $block['name'] . '.js', '');
+                File::put($config['blockCssDirPath'] . '/' . $block['name'] . '.css', $blockCSSContents);
+                File::put($config['blockJsDirPath'] . '/' . $block['name'] . '.js', '');
             }
         }
     }

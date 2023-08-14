@@ -53,19 +53,16 @@ class CreateBlock extends Command
     public function handle()
     {
         // Run the config prompts
-        $this->configPrompts->handle($this);
+        $this->config = $this->configPrompts->handle();
 
         // Run the block prompts
-        $this->blockPrompts->handle();
-
-        // Get the block
-        $this->block = $this->blockPrompts->getBlock();
+        $this->block = $this->blockPrompts->handle();
 
         // Register the block
-        $this->blockRegistration->handle($this->block);
+        $this->blockRegistration->handle($this->config, $this->block);
 
         // Scaffold the block
-        $this->blockScaffold->handle($this->block);
+        $this->blockScaffold->handle($this->config, $this->block);
     }
 
     /**
