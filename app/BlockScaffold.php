@@ -64,28 +64,26 @@ class BlockScaffold
 
     public function createBlockJSON()
     {
-        if ($this->config['useBlockJSON']) {
-            $jsonFileContents = [
-                'name'        => $this->block['name'],
-                'title'       => $this->block['title'],
-                'description' => $this->block['description'],
-                'category'    => 'theme',
-                'apiVersion'  => 2,
-                'acf'         => [
-                    'mode'           => 'preview',
-                    'renderTemplate' => $this->blockDir . '/block.php'
-                ],
-                'supports'    => [
-                    'anchor' => true
-                ]
-            ];
+        $jsonFileContents = [
+            'name'        => $this->block['name'],
+            'title'       => $this->block['title'],
+            'description' => $this->block['description'],
+            'category'    => 'theme',
+            'apiVersion'  => 2,
+            'acf'         => [
+                'mode'           => 'preview',
+                'renderTemplate' => $this->blockDir . '/block.php'
+            ],
+            'supports'    => [
+                'anchor' => true
+            ]
+        ];
 
-            if ($this->block['useJSX']) {
-                $jsonFileContents['supports']['jsx'] = true;
-            }
-
-            File::put($this->blockDir . '/block.json', json_encode($jsonFileContents, JSON_PRETTY_PRINT));
+        if ($this->block['useJSX']) {
+            $jsonFileContents['supports']['jsx'] = true;
         }
+
+        File::put($this->blockDir . '/block.json', json_encode($jsonFileContents, JSON_PRETTY_PRINT));
     }
 
     public function createBlockAssets()
