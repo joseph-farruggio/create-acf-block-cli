@@ -1,40 +1,88 @@
-<a href="https://supportukrainenow.org/"><img src="https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct.svg" width="100%"></a>
+# Create ACF Block CLI
 
-------
+A CLI to streamline the process of creating ACF blocks. Quickly generate your Advanced Custom Fields blocks in your WordPress theme.
+<!-- 
+![CLI Screenshot](path-to-screenshot.png) 
+_Optionally, include a screenshot of your CLI in action._ -->
 
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
+## Table of Contents
 
-<p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://github.com/laravel-zero/laravel-zero/actions/workflows/tests.yml/badge.svg" alt="Build Status"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License"></a>
-</p>
+- [Installation](#installation)
+- [Usage](#usage)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
-<h4> <center>This is a <bold>community project</bold> and not an official Laravel one </center></h4>
+## Installation
 
-Laravel Zero was created by [Nuno Maduro](https://github.com/nunomaduro) and [Owen Voke](https://github.com/owenvoke), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+### 1. Downloading the Package
 
-- Built on top of the [Laravel](https://laravel.com) components.
-- Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
-- Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
-- Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and  a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
-- Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+You can install the CLI globally via Composer:
 
-------
+```
+composer global require joeyfarruggio/create-acf-block
+```
 
-## Documentation
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+### 2. Ensure Global Composer Binaries are in Your PATH
 
-## Support the development
-**Do you like this project? Support it by donating**
+If it's your first time installing a global Composer package, ensure that the global Composer binaries directory is in your system's PATH. This will allow you to run the `create-acf-block` command globally.
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
-- Patreon: [Donate](https://www.patreon.com/nunomaduro)
+To find out the path to your global composer binaries:
+
+```
+composer global config bin-dir --absolute
+```
+
+The command above will output a path. You need to add this path to your system's PATH. Below are instructions based on your operating system:
+
+#### macOS and Linux
+
+Add the following to your `.bashrc`, `.bash_profile`, or `.zshrc` file:
+
+```
+export PATH=$PATH:~/.composer/vendor/bin
+```
+
+
+_Note: Depending on your setup, the path might be `~/.config/composer/vendor/bin` instead._
+
+#### Windows
+
+1. Right-click on the Computer icon and choose Properties.
+2. Click on the Advanced system settings link.
+3. Click on the Environment Variables button.
+4. In the System Variables section, find the PATH variable, select it, and click Edit.
+5. In the Edit Environment Variable window, add a semicolon to the end of the value and then append the path to your global composer binaries.
+6. Click OK to save your changes.
+
+## Usage
+
+After installation, you can utilize the CLI tool globally:
+
+`create-acf-block`
+
+Follow the on-screen prompts to create your ACF block.
+
+The first tme you run the command you will be see a series of config prompts. If you ever need to reset these you can run `create-acf-block set-config`.
+
+## Troubleshooting
+
+If you encounter any issues while running the command, ensure that:
+
+- The Composer binaries path is correctly set in your PATH as per the installation instructions.
+- You have the required permissions to execute the command.
+
+For further assistance or to report a bug, please open an [issue](https://github.com/joseph-farruggio/create-acf-block-cli/issues).
+
+## Contributing
+
+Contributions are welcome!
 
 ## License
 
-Laravel Zero is an open-source software licensed under the MIT license.
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+Happy coding! 🚀
