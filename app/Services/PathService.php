@@ -12,7 +12,7 @@ class PathService
         return '.' . str_replace(getcwd(), '', $path);
     }
 
-    public function getNakedPath($path)
+    public function getNakedPath($path = './')
     {
         return str_replace('./', '', $path);
     }

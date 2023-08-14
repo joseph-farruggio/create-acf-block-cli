@@ -9,6 +9,7 @@ use App\Services\PathService;
 class BlockRegistration
 {
     public $config;
+    public $block;
     public $configPrompts;
     public $registrationFilePath;
     public $pathService;
@@ -16,36 +17,39 @@ class BlockRegistration
     public function __construct(ConfigPrompts $configPrompts, PathService $pathService)
     {
         $this->configPrompts = $configPrompts;
+        $this->pathService   = $pathService;
     }
 
     public function handle($config, $block)
     {
-        /**
-         * Block Registration File
-         * All blocks are registered in $this->registrationFilePath
-         * If the file doesn't exist create it.
-         */
+        $this->config = $config;
+        $this->block  = $block;
 
-        if (!$config['createRegistrationFile']) {
+        if (!$this->config['createRegistrationFile']) {
             return;
         }
 
+        $this->createRegistrationFile();
+        $this->addBlock();
+    }
 
-        $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks.php';
+    public function createRegistrationFile()
+    {
+
+        $this->registrationFilePath = $this->config['registrationFileDir'] . '/register-acf-blocks.php';
         if (!File::exists($this->registrationFilePath)) {
             $contents = "<?php\n\n";
             $contents .= "// ACF Block Registration\n";
             $contents .= "\$blocks=array();\n\n";
             $contents .= "foreach (\$blocks as \$block) {\n";
-            $contents .= "    register_block_type( get_template_directory() . '/" . $this->pathService->getNakedPath($config['blocksDirPath']) . "/' . \$block );\n";
+            $contents .= "    register_block_type( get_template_directory() . '/" . $this->pathService->getNakedPath($this->config['blocksDirPath']) . "/' . \$block );\n";
             $contents .= "}\n";
             File::put($this->registrationFilePath, $contents);
         }
+    }
 
-
-        /**
-         * Add the block to the registration file
-         */
+    public function addBlock()
+    {
         $contents = File::get($this->registrationFilePath);
         if (preg_match('/\$blocks\s*=\s*array\s*\(([^;]*)\)/', $contents, $matches)) {
             $arrayContents = $matches[1];
@@ -54,7 +58,7 @@ class BlockRegistration
             eval("\$parsedArray = array($arrayContents);");
 
             // Step 3: Insert a new item in the array.
-            $newItem       = $block['name']; // Replace with the desired string
+            $newItem       = $this->block['name']; // Replace with the desired string
             $parsedArray[] = $newItem;
 
             // Step 4: Sort the array items alphabetically
@@ -72,6 +76,5 @@ class BlockRegistration
             // Step 5: Save the array back to the file
             File::put($this->registrationFilePath, $contents);
         }
-
     }
 }

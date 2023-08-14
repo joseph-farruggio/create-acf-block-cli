@@ -29,19 +29,12 @@ class ConfigPrompts
 
     public function handle($reset = false)
     {
-        /**
-         * Config Prompts
-         * 1. Check if the config file exists
-         * 2. If it does, run the config prompts
-         * 3. Save the config JSON file
-         */
         if (File::exists('./acf-block-cli.config.json') && !$reset) {
             return json_decode(File::get('./acf-block-cli.config.json'), true);
         }
 
         $config = [];
 
-        // Block Namespace
         $config['blockNamespace'] = text(
             'Block Namespace:',
             placeholder: "acf",
@@ -53,17 +46,14 @@ class ConfigPrompts
             }
         );
 
-        // Use block.json?
         $config['useBlockJSON'] = confirm('Use block.json?');
 
-        // Create a block registration file?
         $config['createRegistrationFile'] = confirm(
             label: 'Create a block registration file?',
             yes: 'Yes',
             no: 'No, I\'ll register blocks myself',
         );
 
-        // If we're creating a registration file, where should it be created?
         if ($config['createRegistrationFile']) {
             $config['registrationFileDir'] = search(
                 'Where should your block registration file be created?',
@@ -76,13 +66,13 @@ class ConfigPrompts
             $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks.php';
         }
 
-        // Where should blocks be stored?
         $config['blocksDirPath'] = search(
             'Search for your blocks directory',
             fn(string $value) => strlen($value) > 0
             ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
             : []
         );
+
         $config['blocksDirPath'] = $this->pathService->getRelPath($config['blocksDirPath']);
 
         if ($config['createRegistrationFile']) {
@@ -100,10 +90,8 @@ class ConfigPrompts
 
         }
 
-        // Create block specific CSS and JS files?
         $config['blockAssets'] = confirm('Create block specific CSS and JS files?');
 
-        // If we're creating block specific CSS and JS files, where should they be stored?
         if ($config['blockAssets']) {
             $config['groupBlockAssets'] = Select(
                 label: 'Where should block assets be stored?',
@@ -135,13 +123,5 @@ class ConfigPrompts
         // Save the config file
         File::put('./acf-block-cli.config.json', json_encode($config, JSON_PRETTY_PRINT));
         return json_decode(File::get('./acf-block-cli.config.json'), true);
-    }
-
-    public function getConfig()
-    {
-        if (File::exists('./acf-block-cli.config.json')) {
-            return json_decode(File::get('./acf-block-cli.config.json'), true);
-        }
-        return [];
     }
 }
