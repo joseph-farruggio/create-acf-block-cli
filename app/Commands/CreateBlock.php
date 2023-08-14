@@ -34,6 +34,7 @@ class CreateBlock extends Command
 
     // Properties
     public $config;
+    public $block;
 
     public function __construct(ConfigPrompts $configPrompts, BlockPrompts $blockPrompts, BlockRegistration $blockRegistration, BlockScaffold $blockScaffold)
     {
@@ -54,20 +55,17 @@ class CreateBlock extends Command
         // Run the config prompts
         $this->configPrompts->handle($this);
 
-        // Get the config file
-        $this->config = $this->configPrompts->getConfig();
-
         // Run the block prompts
         $this->blockPrompts->handle();
 
         // Get the block
-        $block = $this->blockPrompts->getBlock();
+        $this->block = $this->blockPrompts->getBlock();
 
         // Register the block
-        $this->blockRegistration->handle($block);
+        $this->blockRegistration->handle($this->block);
 
         // Scaffold the block
-        $this->blockScaffold->handle($block);
+        $this->blockScaffold->handle($this->block);
     }
 
     /**

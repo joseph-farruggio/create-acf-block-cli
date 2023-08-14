@@ -3,4 +3,4 @@
 /.vscode
 /.vagrant
 .phpunit.result.cache
-create-acf-block.config.json
+acf-block-cli.config.json

@@ -16,14 +16,14 @@ class BlockScaffold
 
     public function __construct(PathService $pathService)
     {
-        if (File::exists('./create-acf-block.config.json')) {
-            $this->config = json_decode(File::get('./create-acf-block.config.json'), true);
+        if (File::exists('./acf-block-cli.config.json')) {
+            $this->config = json_decode(File::get('./acf-block-cli.config.json'), true);
         } else {
             $this->config = [];
         }
 
         $this->pathService = $pathService;
-        $this->stubDir     = $this->pathService->base_path('stubs');
+        $this->stubDir     = $this->pathService->base_path('resources/stubs');
     }
 
     public function handle($block)
@@ -106,6 +106,6 @@ class BlockScaffold
 
     public function getConfig()
     {
-        return json_decode(File::get('./create-acf-block.config.json'), true);
+        return json_decode(File::get('./acf-block-cli.config.json'), true);
     }
 }

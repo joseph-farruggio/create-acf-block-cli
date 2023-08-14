@@ -17,16 +17,14 @@ class ConfigPrompts
 {
     protected $directoryService;
     protected $pathService;
-    public $config;
     public $registrationFilePath;
-    public $blockDir;
     public $stubDir;
 
     public function __construct(DirectoryService $directoryService, PathService $pathService)
     {
         $this->directoryService = $directoryService;
         $this->pathService      = $pathService;
-        $this->stubDir          = $this->pathService->base_path('stubs');
+        $this->stubDir          = $this->pathService->base_path('resources/stubs');
     }
 
     public function handle($app)
@@ -34,14 +32,23 @@ class ConfigPrompts
         /**
          * Config Prompts
          * 1. Check if the config file exists
-         * 2. If it does, serve the config prompts
+         * 2. If it does, run the config prompts
          * 3. Save the config JSON file
          */
-        if (!File::exists('./create-acf-block.config.json')) {
+        if (!File::exists('./acf-block-cli.config.json')) {
             $config = [];
 
             // Block Namespace
-            $config['blockNamespace'] = text('Block Namespace:', placeholder: "acf", required: true);
+            $config['blockNamespace'] = text(
+                'Block Namespace:',
+                placeholder: "acf",
+                required: true,
+                validate: fn(string $value) => match (true) {
+                    strlen($value) < 3 => 'The name must be at least 3 characters.',
+                    strlen($value) > 255 => 'The name must not exceed 255 characters.',
+                    default => null
+                }
+            );
 
             // Use block.json?
             $config['useBlockJSON'] = confirm('Use block.json?');
@@ -122,12 +129,15 @@ class ConfigPrompts
             }
 
             // Save the config file
-            File::put('./create-acf-block.config.json', json_encode($config, JSON_PRETTY_PRINT));
+            File::put('./acf-block-cli.config.json', json_encode($config, JSON_PRETTY_PRINT));
         }
     }
 
     public function getConfig()
     {
-        return json_decode(File::get('./create-acf-block.config.json'), true);
+        if (File::exists('./acf-block-cli.config.json')) {
+            return json_decode(File::get('./acf-block-cli.config.json'), true);
+        }
+        return [];
     }
 }
