@@ -7,6 +7,16 @@ use App\Services\PlatformService as Platform;
 
 class PathService
 {
+    public function getRelPath($path)
+    {
+        return '.' . str_replace(getcwd(), '', $path);
+    }
+
+    public function getNakedPath($path)
+    {
+        return str_replace('./', '', $path);
+    }
+
     public static function base_path(string $path = ''): string
     {
         $code_path = "vendor/joeyfarruggio/create-acf-block/{$path}";
