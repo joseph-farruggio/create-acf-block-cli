@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => 'Create-acf-block',
+    'name'      => 'Create-acf-block',
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'version' => app('git.version'),
+    'version'   => app('git.version'),
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'env' => 'development',
+    'env'       => 'development',
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone'  => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -68,6 +68,7 @@ return [
 
     'providers' => [
         App\Providers\AppServiceProvider::class,
+        Intonate\TinkerZero\TinkerZeroServiceProvider::class,
     ],
 
 ];

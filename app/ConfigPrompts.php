@@ -46,8 +46,6 @@ class ConfigPrompts
             }
         );
 
-        $config['useBlockJSON'] = confirm('Use block.json?');
-
         $config['createRegistrationFile'] = confirm(
             label: 'Create a block registration file?',
             yes: 'Yes',
@@ -58,7 +56,7 @@ class ConfigPrompts
             $config['registrationFileDir'] = search(
                 'Where should your block registration file be created?',
                 fn(string $value) => strlen($value) > 0
-                ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
+                ? $this->directoryService->getDirectories($value)->toArray()
                 : []
             );
             $config['registrationFileDir'] = $this->pathService->getRelPath($config['registrationFileDir']);
@@ -69,7 +67,7 @@ class ConfigPrompts
         $config['blocksDirPath'] = search(
             'Search for your blocks directory',
             fn(string $value) => strlen($value) > 0
-            ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
+            ? $this->directoryService->getDirectories($value)->toArray()
             : []
         );
 
@@ -103,7 +101,7 @@ class ConfigPrompts
                 $config['blockCssDirPath'] = search(
                     'Search for your block CSS directory',
                     fn(string $value) => strlen($value) > 0
-                    ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
+                    ? $this->directoryService->getDirectories($value)->toArray()
                     : []
                 );
                 $config['blockCssDirPath'] = $this->pathService->getRelPath($config['blockCssDirPath']);
@@ -113,7 +111,7 @@ class ConfigPrompts
                 $config['blockJsDirPath'] = search(
                     'Search for your block JS directory',
                     fn(string $value) => strlen($value) > 0
-                    ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
+                    ? $this->directoryService->getDirectories($value)->toArray()
                     : []
                 );
                 $config['blockJsDirPath'] = $this->pathService->getRelPath($config['blockJsDirPath']);
