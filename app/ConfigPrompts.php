@@ -59,7 +59,7 @@ class ConfigPrompts
                 ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
                 : []
             );
-            // $config['registrationFileDir'] = $this->pathService->getRelPath($config['registrationFileDir']);
+            // $config['registrationFileDir'] = $this->pathService->getNakedPath($config['registrationFileDir']);
 
             $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks.php';
         }
@@ -71,7 +71,7 @@ class ConfigPrompts
             : []
         );
 
-        $config['blocksDirPath'] = $this->pathService->getRelPath($config['blocksDirPath']);
+        $config['blocksDirPath'] = $this->pathService->getNakedPath($config['blocksDirPath']);
 
         if ($config['createRegistrationFile']) {
             // Create the registration file
@@ -104,7 +104,7 @@ class ConfigPrompts
                     ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
                     : []
                 );
-                $config['blockCssDirPath'] = $this->pathService->getRelPath($config['blockCssDirPath']);
+                $config['blockCssDirPath'] = $this->pathService->getNakedPath($config['blockCssDirPath']);
             }
 
             if (!$config['groupBlockAssets']) {
@@ -114,7 +114,7 @@ class ConfigPrompts
                     ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
                     : []
                 );
-                $config['blockJsDirPath'] = $this->pathService->getRelPath($config['blockJsDirPath']);
+                $config['blockJsDirPath'] = $this->pathService->getNakedPath($config['blockJsDirPath']);
             }
         }
 
