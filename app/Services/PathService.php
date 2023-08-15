@@ -14,7 +14,7 @@ class PathService
 
     public function getNakedPath($path = './')
     {
-        return str_replace('./', '', $path);
+        return str_replace(['./', '.'], '', $path);
     }
 
     public static function base_path(string $path = ''): string

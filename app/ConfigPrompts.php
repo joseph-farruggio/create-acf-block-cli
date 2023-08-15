@@ -59,7 +59,7 @@ class ConfigPrompts
                 ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
                 : []
             );
-            $config['registrationFileDir'] = $this->pathService->getRelPath($config['registrationFileDir']);
+            // $config['registrationFileDir'] = $this->pathService->getRelPath($config['registrationFileDir']);
 
             $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks.php';
         }

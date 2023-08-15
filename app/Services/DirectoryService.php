@@ -15,37 +15,46 @@ class DirectoryService
             throw new \Exception("Invalid or unreadable directory: {$currentDirectory}");
         }
 
-        // Create a filesystem instance
-        $filesystemManager = new FilesystemManager(app());
-        $storage           = $filesystemManager->createLocalDriver(['root' => $currentDirectory]);
+        $filesystem = app('files');
+        $ignore     = ['vendor', 'node_modules'];
 
-        $ignore = ['vendor', 'node_modules', '.git'];
+        $directories = $this->fetchDirectories($filesystem, $currentDirectory, $ignore, $query);
 
-        $directories = collect($storage->allFiles()) // Start with all files
-            ->filter(function ($path) {
-                // Only keep paths that are not symbolic links
-                return !is_link($path);
-            })
-            ->flatMap(function ($path) {
-                // For each file, get its directory path using PHP's native function
-                return [dirname($path)];
-            })
-            ->unique() // Only keep unique directory paths
-            ->filter(function ($directory) use ($ignore, $query) {
-                foreach ($ignore as $ignoredDirectory) {
-                    if (Str::startsWith($directory, $ignoredDirectory)) {
-                        return false;
-                    }
-                }
+        // Convert absolute paths to relative paths
+        $directories = array_map(function ($directory) use ($currentDirectory) {
+            return str_replace($currentDirectory . DIRECTORY_SEPARATOR, '', $directory);
+        }, $directories);
 
-                if ($query) {
-                    return Str::contains($directory, $query);
-                }
+        return collect($directories);
+    }
 
-                return true;
-            });
 
-        return $directories;
+
+    protected function fetchDirectories($filesystem, $dir, $ignore, $query, $depth = 0)
+    {
+        $results = [];
+
+        if ($depth > 3) { // Adjust depth as needed
+            return $results;
+        }
+
+        foreach ($filesystem->directories($dir) as $directory) {
+            $dirName = basename($directory);
+
+            if (in_array($dirName, $ignore)) {
+                continue;
+            }
+
+            // Check if the directory matches the query
+            if (!$query || Str::contains($directory, $query)) {
+                $results[] = $directory;
+            }
+
+            // Recursively fetch subdirectories
+            $results = array_merge($results, $this->fetchDirectories($filesystem, $directory, $ignore, $query, $depth + 1));
+        }
+
+        return $results;
     }
 
 
