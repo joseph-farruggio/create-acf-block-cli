@@ -41,7 +41,7 @@ The command above will output a path. You need to add this path to your system's
 Add the following to your `.bashrc`, `.bash_profile`, or `.zshrc` file:
 
 ```
-export PATH=$PATH:~/.composer/vendor/bin
+export PATH=~/.composer/vendor/bin:$PATH
 ```
 
 
