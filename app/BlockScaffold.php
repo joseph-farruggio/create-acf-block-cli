@@ -47,7 +47,7 @@ class BlockScaffold
         $blockPHPContents = str_replace('{{blockTitle}}', $this->block['title'], $blockPHPContents);
         $blockPHPContents = str_replace('{{blockDescription}}', $this->block['description'], $blockPHPContents);
         $blockPHPContents = str_replace('{{blockDir}}', $this->blockDir, $blockPHPContents);
-        File::put($this->blockDir . '/block.php', $blockPHPContents);
+        File::put($this->pathService->getNakedPath($this->blockDir) . '/block.php', $blockPHPContents);
     }
 
     public function createBlockTemplate()
@@ -59,7 +59,7 @@ class BlockScaffold
         }
         $blockTemplateContents = str_replace('{{blockTitle}}', $this->block['title'], $blockTemplateContents);
         $blockTemplateContents = str_replace('{{blockDescription}}', $this->block['description'], $blockTemplateContents);
-        File::put($this->blockDir . '/template.php', $blockTemplateContents);
+        File::put($this->pathService->getNakedPath($this->blockDir) . '/template.php', $blockTemplateContents);
     }
 
     public function createBlockJSON()
@@ -72,7 +72,7 @@ class BlockScaffold
             'apiVersion'  => 2,
             'acf'         => [
                 'mode'           => 'preview',
-                'renderTemplate' => $this->blockDir . '/block.php'
+                'renderTemplate' => $this->pathService->getNakedPath($this->blockDir) . '/block.php'
             ],
             'supports'    => [
                 'anchor' => true
@@ -83,7 +83,7 @@ class BlockScaffold
             $jsonFileContents['supports']['jsx'] = true;
         }
 
-        File::put($this->blockDir . '/block.json', json_encode($jsonFileContents, JSON_PRETTY_PRINT));
+        File::put($this->pathService->getNakedPath($this->blockDir) . '/block.json', json_encode($jsonFileContents, JSON_PRETTY_PRINT));
     }
 
     public function createBlockAssets()
@@ -92,8 +92,8 @@ class BlockScaffold
             if ($this->config['groupBlockAssets']) {
                 $blockCSSContents = File::get($this->stubDir . '/block.css.stub');
                 $blockCSSContents = str_replace('{{blockName}}', $this->block['name'], $blockCSSContents);
-                File::put($this->blockDir . '/block.css', $blockCSSContents);
-                File::put($this->blockDir . '/block.js', '');
+                File::put($this->pathService->getNakedPath($this->blockDir) . '/block.css', $blockCSSContents);
+                File::put($this->pathService->getNakedPath($this->blockDir) . '/block.js', '');
             } else {
                 $blockCSSContents = File::get($this->stubDir . '/block.css.stub');
                 $blockCSSContents = str_replace('{{blockName}}', $this->block['name'], $blockCSSContents);
