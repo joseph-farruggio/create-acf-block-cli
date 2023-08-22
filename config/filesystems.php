@@ -5,7 +5,7 @@ return [
     'disks'   => [
         'local' => [
             'driver' => 'local',
-            'root'   => env('DYNAMIC_DISK_PATH', storage_path('app')),
+            'root'   => storage_path('app'),
         ],
     ],
 ];
