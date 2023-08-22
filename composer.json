@@ -1,24 +1,24 @@
 {
-    "name": "laravel-zero/laravel-zero",
-    "description": "The Laravel Zero Framework.",
+    "name": "joeyfarruggio/create-acf-block",
+    "description": "A CLI for scaffolding ACF blocks.",
     "keywords": [
-        "framework",
-        "laravel",
-        "laravel zero",
-        "console",
+        "ACF",
+        "Advanced Custom Fields",
+        "WordPress",
+        "ACF Blocks",
         "cli"
     ],
-    "homepage": "https://laravel-zero.com",
+    "homepage": "https://joeyfarruggio.com",
     "type": "project",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/laravel-zero/laravel-zero/issues",
-        "source": "https://github.com/laravel-zero/laravel-zero"
+        "issues": "https://github.com/joseph-farruggio/create-acf-block-cli/issues",
+        "source": "https://github.com/joseph-farruggio/create-acf-block-cli/"
     },
     "authors": [
         {
-            "name": "Nuno Maduro",
-            "email": "enunomaduro@gmail.com"
+            "name": "Joey Farruggio",
+            "email": "joey@joeyfarruggio.com"
         }
     ],
     "require": {
@@ -50,7 +50,8 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "stable",
