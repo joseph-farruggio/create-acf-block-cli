@@ -20,7 +20,6 @@ class BlockPrompts
     public function __construct(PathService $pathService)
     {
         $this->pathService = $pathService;
-        $this->blockSchema = File::get($this->pathService->base_path('resources/block-schema.json'));
     }
 
     public function handle()
