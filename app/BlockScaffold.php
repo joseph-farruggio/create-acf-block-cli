@@ -4,6 +4,7 @@ namespace App;
 
 use App\Services\PathService;
 use Illuminate\Support\Facades\File;
+use App\Timer;
 
 class BlockScaffold
 {

@@ -12,6 +12,7 @@ use function Laravel\Prompts\note;
 
 use App\Services\DirectoryService;
 use App\Services\PathService;
+use App\Timer;
 
 class ConfigPrompts
 {
@@ -29,10 +30,6 @@ class ConfigPrompts
 
     public function handle($reset = false)
     {
-        if (File::exists('./acf-block-cli.config.json') && !$reset) {
-            return json_decode(File::get('./acf-block-cli.config.json'), true);
-        }
-
         $config = [];
 
         $config['blockNamespace'] = text(
@@ -120,6 +117,5 @@ class ConfigPrompts
 
         // Save the config file
         File::put('./acf-block-cli.config.json', json_encode($config, JSON_PRETTY_PRINT));
-        return json_decode(File::get('./acf-block-cli.config.json'), true);
     }
 }

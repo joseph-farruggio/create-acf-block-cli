@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Support\Facades\File;
 use App\ConfigPrompts;
 use App\Services\PathService;
+use App\Timer;
 
 class BlockRegistration
 {
