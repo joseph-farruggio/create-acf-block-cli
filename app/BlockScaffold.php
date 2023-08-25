@@ -41,7 +41,7 @@ class BlockScaffold
 
     public function createBlockDir()
     {
-        $this->blockDir = $this->pathService->getNakedPath($this->config['blocksDirPath']) . '/' . $this->block['name'];
+        $this->blockDir = $this->pathService->getNakedPath($this->configService->get('blocksDirPath')) . '/' . $this->block['name'];
         if (!File::exists($this->blockDir)) {
             File::makeDirectory($this->blockDir, recursive: true);
         }
