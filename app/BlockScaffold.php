@@ -95,8 +95,8 @@ class BlockScaffold
 
     public function createBlockAssets()
     {
-        if ($this->config['blockAssets']) {
-            if ($this->config['groupBlockAssets']) {
+        if ($this->configService->get('blockAssets')) {
+            if ($this->configService->get('groupBlockAssets')) {
                 $blockCSSContents = File::get($this->stubDir . '/block.css.stub');
                 $blockCSSContents = str_replace('{{blockName}}', $this->block['name'], $blockCSSContents);
                 File::put($this->pathService->getNakedPath($this->blockDir) . '/block.css', $blockCSSContents);
@@ -104,8 +104,8 @@ class BlockScaffold
             } else {
                 $blockCSSContents = File::get($this->stubDir . '/block.css.stub');
                 $blockCSSContents = str_replace('{{blockName}}', $this->block['name'], $blockCSSContents);
-                File::put($this->config['blockCssDirPath'] . '/' . $this->block['name'] . '.css', $blockCSSContents);
-                File::put($this->config['blockJsDirPath'] . '/' . $this->block['name'] . '.js', '');
+                File::put($this->configService->get('blockCssDirPath') . '/' . $this->block['name'] . '.css', $blockCSSContents);
+                File::put($this->configService->get('blockJsDirPath') . '/' . $this->block['name'] . '.js', '');
             }
         }
     }

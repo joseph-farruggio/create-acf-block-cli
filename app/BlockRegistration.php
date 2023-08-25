@@ -41,7 +41,7 @@ class BlockRegistration
             $contents .= "// ACF Block Registration\n";
             $contents .= "\$blocks=array();\n\n";
             $contents .= "foreach (\$blocks as \$block) {\n";
-            $contents .= "    register_block_type( get_template_directory() . '/" . $this->pathService->getNakedPath($this->config['blocksDirPath']) . "/' . \$block );\n";
+            $contents .= "    register_block_type( get_template_directory() . '/" . $this->pathService->getNakedPath($this->configService->get('blocksDirPath')) . "/' . \$block );\n";
             $contents .= "}\n";
             File::put($this->registrationFilePath, $contents);
         }
