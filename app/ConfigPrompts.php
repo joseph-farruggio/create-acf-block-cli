@@ -118,8 +118,15 @@ class ConfigPrompts
             }
         }
 
+        $config['blockSlugify'] = confirm(
+            label: 'Slugify block names based on the block title?',
+            yes: 'Yes',
+            no: 'No, I\'ll define block names myself',
+        );
+
+
         outro("Configuration complete");
         // Save the config file
-        File::put('./acf-block-cli.config.json', json_encode($config, JSON_PRETTY_PRINT));
+        File::put('./create-acf-block.config.json', json_encode($config, JSON_PRETTY_PRINT));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\ConfigService;
 use App\Services\PathService;
 use Illuminate\Support\Facades\File;
 use App\Timer;
@@ -10,16 +11,19 @@ use function Laravel\Prompts\outro;
 class BlockScaffold
 {
     public $pathService;
+    public $configService;
     public $config;
     public $blockDir;
     public $stubDir;
     public $block;
 
 
-    public function __construct(PathService $pathService)
+    public function __construct(PathService $pathService, ConfigService $configService)
     {
-        $this->pathService = $pathService;
-        $this->stubDir     = $this->pathService->base_path('resources/stubs');
+        $this->pathService   = $pathService;
+        $this->configService = $configService;
+        $this->stubDir       = $this->pathService->base_path('resources/stubs');
+        $this->config        = $this->configService->config;
     }
 
     public function handle($config, $block)

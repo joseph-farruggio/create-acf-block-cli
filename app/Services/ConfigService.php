@@ -12,7 +12,7 @@ class ConfigService
     public function __construct()
     {
         try {
-            $this->config = json_decode(File::get('./acf-block-cli.config.json'), true);
+            $this->config = json_decode(File::get('./create-acf-block.config.json'), true);
         } catch (FileNotFoundException $e) {
             $this->config = []; // Default empty configuration
         }
