@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\File;
-use App\ConfigPrompts;
+use App\Services\ConfigService;
 use App\Services\PathService;
 use App\Timer;
 
@@ -11,22 +11,20 @@ class BlockRegistration
 {
     public $config;
     public $block;
-    public $configPrompts;
     public $registrationFilePath;
     public $pathService;
+    public $configService;
 
-    public function __construct(ConfigPrompts $configPrompts, PathService $pathService)
-    {
-        $this->configPrompts = $configPrompts;
-        $this->pathService   = $pathService;
-    }
 
     public function handle($config, $block)
     {
         $this->config = $config;
         $this->block  = $block;
 
-        if (!$this->config['createRegistrationFile']) {
+        $this->pathService   = app(PathService::class);
+        $this->configService = app(ConfigService::class);
+
+        if (!$this->configService->config['createRegistrationFile']) {
             return;
         }
 

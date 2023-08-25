@@ -37,7 +37,7 @@ class SetConfig extends Command
      */
     public function handle()
     {
-        $this->configPrompts->handle(true);
+        $this->configPrompts->handle();
     }
 
     /**

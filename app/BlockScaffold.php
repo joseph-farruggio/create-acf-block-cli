@@ -5,6 +5,7 @@ namespace App;
 use App\Services\PathService;
 use Illuminate\Support\Facades\File;
 use App\Timer;
+use function Laravel\Prompts\outro;
 
 class BlockScaffold
 {
@@ -31,6 +32,7 @@ class BlockScaffold
         $this->createBlockTemplate();
         $this->createBlockJSON();
         $this->createBlockAssets();
+        outro("Block created at: {$this->blockDir}");
     }
 
     public function createBlockDir()

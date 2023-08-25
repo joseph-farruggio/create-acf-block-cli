@@ -9,6 +9,8 @@ use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\search;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\note;
+use function Laravel\Prompts\intro;
+use function Laravel\Prompts\outro;
 
 use App\Services\DirectoryService;
 use App\Services\PathService;
@@ -28,8 +30,9 @@ class ConfigPrompts
         $this->stubDir          = $this->pathService->base_path('resources/stubs');
     }
 
-    public function handle($reset = false)
+    public function handle()
     {
+        intro("Configuration Prompts:");
         $config = [];
 
         $config['blockNamespace'] = text(
@@ -115,6 +118,7 @@ class ConfigPrompts
             }
         }
 
+        outro("Configuration complete");
         // Save the config file
         File::put('./acf-block-cli.config.json', json_encode($config, JSON_PRETTY_PRINT));
     }
