@@ -75,7 +75,7 @@ class CreateBlock extends Command
         $this->block = $this->blockPrompts->handle();
 
         // Register the block
-        $this->config = $this->configPrompts->config;
+        $this->config = $this->configService->config;
         $this->blockRegistration->handle($this->config, $this->block);
 
         // Scaffold the block
