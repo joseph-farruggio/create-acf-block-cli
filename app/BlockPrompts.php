@@ -9,6 +9,7 @@ use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\search;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\note;
+use function Laravel\Prompts\intro;
 
 use App\Timer;
 use App\Services\ConfigService;
@@ -36,6 +37,7 @@ class BlockPrompts
                 }
             );
         }
+        info("Create block:");
         $blockTitle       = text(label: 'Block Title:', placeholder: "My Block Name", required: true);
         $blockDescription = text(label: 'Block Description:', placeholder: "A brief description of the block");
         $useJSX           = confirm(label: 'Use <InnerBlocks /> ?', default: false);

@@ -35,7 +35,7 @@ class BlockRegistration
     public function createRegistrationFile()
     {
 
-        $this->registrationFilePath = $this->configService->get('registrationFileDir') . '/register-acf-blocks.php';
+        $this->registrationFilePath = $this->configService->get('registrationFileDir') . '/register-acf-blocks-cli.php';
         if (!File::exists($this->registrationFilePath)) {
             $contents = "<?php\n\n";
             $contents .= "// ACF Block Registration\n";

@@ -30,9 +30,9 @@ class ConfigPrompts
         $this->stubDir          = $this->pathService->base_path('resources/stubs');
     }
 
-    public function handle()
+    public function handle($message = "First time setup:")
     {
-        intro("Configuration Prompts:");
+        intro($message);
         $config = [];
 
         $config['blockNamespace'] = text(
@@ -61,7 +61,7 @@ class ConfigPrompts
             );
             // $config['registrationFileDir'] = $this->pathService->getNakedPath($config['registrationFileDir']);
 
-            $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks.php';
+            $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks-cli.php';
         }
 
         $config['blocksDirPath'] = search(
@@ -84,7 +84,7 @@ class ConfigPrompts
                 $contents .= "}\n";
                 File::put($this->registrationFilePath, $contents);
             }
-            note("Note: \nRegistration file created at: {$config['registrationFileDir']}/register-acf-blocks.php \nMake sure to include this file in your functions.php ", type: 'info');
+            note("Note: \nRegistration file created at: {$config['registrationFileDir']}/register-acf-blocks-cli.php \nMake sure to include this file in your functions.php ", type: 'info');
 
         }
 

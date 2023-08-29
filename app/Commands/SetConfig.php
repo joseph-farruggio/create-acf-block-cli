@@ -37,7 +37,7 @@ class SetConfig extends Command
      */
     public function handle()
     {
-        $this->configPrompts->handle();
+        $this->configPrompts->handle("Reset config:");
     }
 
     /**
