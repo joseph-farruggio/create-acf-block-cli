@@ -28,7 +28,7 @@ if( !empty($block['className']) ) {
  * Pass the block data into the template part
  */ 
 get_template_part(
-	'{{blockDir}}/template',
+	'{{blockDir}}/render',
 	null,
 	array(
 		'block'      => $block,

@@ -37,7 +37,7 @@ class BlockPrompts
                 }
             );
         }
-        info("Create block:");
+        intro("Create block:");
         $blockTitle       = text(label: 'Block Title:', placeholder: "My Block Name", required: true);
         $blockDescription = text(label: 'Block Description:', placeholder: "A brief description of the block");
         $useJSX           = confirm(label: 'Use <InnerBlocks /> ?', default: false);

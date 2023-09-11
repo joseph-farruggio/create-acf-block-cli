@@ -13,8 +13,17 @@ class BlockRegistration
     public $block;
     public $registrationFilePath;
     public $pathService;
+    public $stubDir;
     public $configService;
 
+
+    public function __construct(PathService $pathService, ConfigService $configService)
+    {
+        $this->pathService   = $pathService;
+        $this->configService = $configService;
+        $this->stubDir       = $this->pathService->base_path('resources/stubs');
+        $this->config        = $this->configService->config;
+    }
 
     public function handle($config, $block)
     {
@@ -37,13 +46,9 @@ class BlockRegistration
 
         $this->registrationFilePath = $this->configService->get('registrationFileDir') . '/register-acf-blocks-cli.php';
         if (!File::exists($this->registrationFilePath)) {
-            $contents = "<?php\n\n";
-            $contents .= "// ACF Block Registration\n";
-            $contents .= "\$blocks=array();\n\n";
-            $contents .= "foreach (\$blocks as \$block) {\n";
-            $contents .= "    register_block_type( get_template_directory() . '/" . $this->pathService->getNakedPath($this->configService->get('blocksDirPath')) . "/' . \$block );\n";
-            $contents .= "}\n";
-            File::put($this->registrationFilePath, $contents);
+            $registrationFileContents = File::get($this->stubDir . '/register-acf-blocks-cli.php.stub');
+            $registrationFileContents = str_replace('{{BlockPath}}', $this->pathService->getNakedPath($this->configService->get('blocksDirPath')), $registrationFileContents);
+            File::put($this->registrationFilePath, $registrationFileContents);
         }
     }
 

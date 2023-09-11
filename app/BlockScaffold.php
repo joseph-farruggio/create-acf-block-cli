@@ -60,13 +60,13 @@ class BlockScaffold
     public function createBlockTemplate()
     {
         if ($this->block['useJSX']) {
-            $blockTemplateContents = File::get($this->stubDir . '/template-jsx.php.stub');
+            $blockTemplateContents = File::get($this->stubDir . '/render-jsx.php.stub');
         } else {
-            $blockTemplateContents = File::get($this->stubDir . '/template.php.stub');
+            $blockTemplateContents = File::get($this->stubDir . '/render.php.stub');
         }
         $blockTemplateContents = str_replace('{{blockTitle}}', $this->block['title'], $blockTemplateContents);
         $blockTemplateContents = str_replace('{{blockDescription}}', $this->block['description'], $blockTemplateContents);
-        File::put($this->pathService->getNakedPath($this->blockDir) . '/template.php', $blockTemplateContents);
+        File::put($this->pathService->getNakedPath($this->blockDir) . '/render.php', $blockTemplateContents);
     }
 
     public function createBlockJSON()
