@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\ConfigService;
 use Illuminate\Support\Facades\File;
 
 use function Laravel\Prompts\text;
@@ -18,16 +19,22 @@ use App\Timer;
 
 class ConfigPrompts
 {
+    public $config;
+    public $configService;
     protected $directoryService;
     protected $pathService;
     public $registrationFilePath;
     public $stubDir;
 
-    public function __construct(DirectoryService $directoryService, PathService $pathService)
+    public function __construct(DirectoryService $directoryService, PathService $pathService, ConfigService $configService)
     {
         $this->directoryService = $directoryService;
         $this->pathService      = $pathService;
         $this->stubDir          = $this->pathService->base_path('resources/stubs');
+
+        $this->configService = $configService;
+        $this->stubDir       = $this->pathService->base_path('resources/stubs');
+        $this->config        = $this->configService->config;
     }
 
     public function handle($message = "First time setup:")
@@ -47,14 +54,14 @@ class ConfigPrompts
         );
 
         $config['createRegistrationFile'] = confirm(
-            label: 'Create a block registration file?',
+            label: 'Automate block registration?',
             yes: 'Yes',
-            no: 'No, I\'ll register blocks myself',
+            no: 'No, I\'ll register each block myself',
         );
 
         if ($config['createRegistrationFile']) {
             $config['registrationFileDir'] = search(
-                'Where should your block registration file be created?',
+                'Where should the global block registration file be placed?',
                 fn(string $value) => strlen($value) > 0
                 ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
                 : []
@@ -65,7 +72,7 @@ class ConfigPrompts
         }
 
         $config['blocksDirPath'] = search(
-            'Search for your blocks directory',
+            'Where should new blocks be created?',
             fn(string $value) => strlen($value) > 0
             ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
             : []
@@ -75,20 +82,18 @@ class ConfigPrompts
 
         if ($config['createRegistrationFile']) {
             // Create the registration file
+            $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks-cli.php';
             if (!File::exists($this->registrationFilePath)) {
-                $contents = "<?php\n\n";
-                $contents .= "// ACF Block Registration\n";
-                $contents .= "\$blocks=array();\n\n";
-                $contents .= "foreach (\$blocks as \$block) {\n";
-                $contents .= "    register_block_type( get_template_directory() . '/" . $this->pathService->getNakedPath($config['blocksDirPath']) . "/' . \$block );\n";
-                $contents .= "}\n";
-                File::put($this->registrationFilePath, $contents);
+                $registrationFileContents = File::get($this->stubDir . '/register-acf-blocks-cli.php.stub');
+                $registrationFileContents = str_replace('{{BlockPath}}', $this->pathService->getNakedPath($config['blocksDirPath']), $registrationFileContents);
+                File::put($this->registrationFilePath, $registrationFileContents);
             }
             note("Note: \nRegistration file created at: {$config['registrationFileDir']}/register-acf-blocks-cli.php \nMake sure to include this file in your functions.php ", type: 'info');
-
         }
 
         $config['blockAssets'] = confirm('Create block specific CSS and JS files?');
+
+
 
         if ($config['blockAssets']) {
             $config['groupBlockAssets'] = Select(
