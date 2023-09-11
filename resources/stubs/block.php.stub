@@ -20,7 +20,7 @@ if( !empty($block['anchor']) ) {
 
 // Block classes
 $class_name = '{{blockName}}-block';
-if( !empty($block['class_name']) ) {
+if( !empty($block['className']) ) {
     $class_name .= ' ' . $block['className'];
 }
 
