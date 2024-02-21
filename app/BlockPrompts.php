@@ -40,13 +40,13 @@ class BlockPrompts
         intro("Create block:");
         $blockTitle       = text(label: 'Block Title:', placeholder: "My Block Name", required: true);
         $blockDescription = text(label: 'Block Description:', placeholder: "A brief description of the block");
-        $useJSX           = confirm(label: 'Use <InnerBlocks /> ?', default: false);
+        // $useJSX           = confirm(label: 'Use <InnerBlocks /> ?', default: false);
 
         return [
             'name'        => $blockName ?? Str::of($blockTitle)->slug('-'),
             'title'       => $blockTitle,
             'description' => $blockDescription,
-            'useJSX'      => $useJSX,
+            // 'useJSX'      => $useJSX,
         ];
     }
 }

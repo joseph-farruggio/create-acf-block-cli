@@ -66,8 +66,6 @@ class ConfigPrompts
                 ? $this->directoryService->getDirectories(getcwd(), $value)->toArray()
                 : []
             );
-            // $config['registrationFileDir'] = $this->pathService->getNakedPath($config['registrationFileDir']);
-
             $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks-cli.php';
         }
 
@@ -92,8 +90,6 @@ class ConfigPrompts
         }
 
         $config['blockAssets'] = confirm('Create block specific CSS and JS files?');
-
-
 
         if ($config['blockAssets']) {
             $config['groupBlockAssets'] = Select(
@@ -127,6 +123,18 @@ class ConfigPrompts
             label: 'Slugify block names based on the block title?',
             yes: 'Yes',
             no: 'No, I\'ll define block names myself',
+        );
+
+        $config['useTwig'] = confirm(
+            label: 'Are you using Timber/Twig?',
+            yes: 'Yes',
+            no: 'No',
+        );
+
+        $config['useAcfFieldBuilder'] = confirm(
+            label: 'Are you using StoutLogic ACF Fields builder?',
+            yes: 'Yes',
+            no: 'No',
         );
 
 

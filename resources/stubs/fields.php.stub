@@ -1,0 +1,11 @@
+<?php
+use StoutLogic\AcfBuilder\FieldsBuilder;
+
+$fields = new FieldsBuilder('{{blockName}}');
+$fields
+    ->addText('heading')
+    ->setLocation('block', '==', '{{nameSpace}}/{{blockName}}');
+
+add_action('acf/init', function () use ($fields) {
+    acf_add_local_field_group($fields->build());
+});

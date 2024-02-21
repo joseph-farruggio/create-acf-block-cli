@@ -34,6 +34,7 @@ class BlockScaffold
         $this->createBlockDir();
         $this->createBlockController();
         $this->createBlockTemplate();
+        $this->createBlockFields();
         $this->createBlockJSON();
         $this->createBlockAssets();
         outro("Block created at: {$this->blockDir}");
@@ -49,7 +50,12 @@ class BlockScaffold
 
     public function createBlockController()
     {
-        $blockPHPContents = File::get($this->stubDir . '/block.php.stub');
+        if ($this->configService->get('useTwig')) {
+            $blockPHPContents = File::get($this->stubDir . '/twig/block.php.stub');
+        } else {
+            $blockPHPContents = File::get($this->stubDir . '/block.php.stub');
+        }
+        
         $blockPHPContents = str_replace('{{blockName}}', $this->block['name'], $blockPHPContents);
         $blockPHPContents = str_replace('{{blockTitle}}', $this->block['title'], $blockPHPContents);
         $blockPHPContents = str_replace('{{blockDescription}}', $this->block['description'], $blockPHPContents);
@@ -59,14 +65,30 @@ class BlockScaffold
 
     public function createBlockTemplate()
     {
-        if ($this->block['useJSX']) {
-            $blockTemplateContents = File::get($this->stubDir . '/render-jsx.php.stub');
+        if ($this->configService->get('useTwig')) {
+            $blockTemplateContents = File::get($this->stubDir . '/twig/render.twig.stub');
         } else {
             $blockTemplateContents = File::get($this->stubDir . '/render.php.stub');
         }
+
         $blockTemplateContents = str_replace('{{blockTitle}}', $this->block['title'], $blockTemplateContents);
         $blockTemplateContents = str_replace('{{blockDescription}}', $this->block['description'], $blockTemplateContents);
-        File::put($this->pathService->getNakedPath($this->blockDir) . '/render.php', $blockTemplateContents);
+
+        if ($this->configService->get('useTwig')) {
+            File::put($this->pathService->getNakedPath($this->blockDir) . '/render.twig', $blockTemplateContents);
+        } else {
+            File::put($this->pathService->getNakedPath($this->blockDir) . '/render.php', $blockTemplateContents);
+        }
+    }
+
+    public function createBlockFields()
+    {
+        if (!$this->configService->get('useAcfFieldBuilder')) return;
+
+        $blockFieldsContents = File::get($this->stubDir . '/fields.php.stub');
+        $blockFieldsContents = str_replace('{{nameSpace}}', $this->configService->get('blockNamespace') , $blockFieldsContents);
+        $blockFieldsContents = str_replace('{{blockName}}', $this->block['name'], $blockFieldsContents);
+        File::put($this->pathService->getNakedPath($this->blockDir) . '/fields.php', $blockFieldsContents);
     }
 
     public function createBlockJSON()
@@ -86,9 +108,9 @@ class BlockScaffold
             ]
         ];
 
-        if ($this->block['useJSX']) {
-            $jsonFileContents['supports']['jsx'] = true;
-        }
+        // if ($this->block['useJSX']) {
+        //     $jsonFileContents['supports']['jsx'] = true;
+        // }
 
         File::put($this->pathService->getNakedPath($this->blockDir) . '/block.json', json_encode($jsonFileContents, JSON_PRETTY_PRINT));
     }

@@ -1,0 +1,4 @@
+<div>
+    <h1>{{ block.example_field }}</h1>
+    <p>{{ block.another_field }}</p>
+</div>

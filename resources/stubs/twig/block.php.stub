@@ -21,23 +21,8 @@ $context['is_preview'] = $is_preview;
 $block_wrapper_attrs = acf_block_attributes_wrapper($block, $is_preview, [
 	'class' => '{{blockName}}'
 ]);
-
-$template = array(
-    array('core/heading', array(
-        'level' => 2,
-        'content' => 'This is a default heading',
-    )),
-    array( 'core/paragraph', array(
-        'content' => 'This is placeholder paragraph text.',
-    ) )
-);
-
-$allowed_blocks = array( 'core/heading', 'core/paragraph', 'core/image' );
 ?>
 
-<!-- Our front-end template -->
 <div <?= $block_wrapper_attrs; ?>>
-    <InnerBlocks 
-        template="<?php echo esc_attr( wp_json_encode( $template ) ); ?>"
-        allowedBlocks="<?php echo esc_attr( wp_json_encode( $allowed_blocks ) ); ?>"/>
+	<?php Timber::render('{{blockDir}}/render.twig', $context); ?>
 </div>
