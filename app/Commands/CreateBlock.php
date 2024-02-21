@@ -52,14 +52,6 @@ class CreateBlock extends Command
      */
     public function handle()
     {
-        // $this->configPrompts = spin(function () {
-        //     return app(ConfigPrompts::class);
-        // }, 'Initializing...');
-
-        // spin(function () {
-        //     $this->configPrompts = app(ConfigPrompts::class);
-        //     return true;
-        // }, 'Preparing CLI...');
         $this->configService = app(ConfigService::class);
 
         if (!$this->configService->configIsSet()) {

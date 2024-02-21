@@ -78,16 +78,16 @@ class ConfigPrompts
 
         $config['blocksDirPath'] = $this->pathService->getNakedPath($config['blocksDirPath']);
 
-        if ($config['createRegistrationFile']) {
-            // Create the registration file
-            $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks-cli.php';
-            if (!File::exists($this->registrationFilePath)) {
-                $registrationFileContents = File::get($this->stubDir . '/register-acf-blocks-cli.php.stub');
-                $registrationFileContents = str_replace('{{BlockPath}}', $this->pathService->getNakedPath($config['blocksDirPath']), $registrationFileContents);
-                File::put($this->registrationFilePath, $registrationFileContents);
-            }
-            note("Note: \nRegistration file created at: {$config['registrationFileDir']}/register-acf-blocks-cli.php \nMake sure to include this file in your functions.php ", type: 'info');
-        }
+        // if ($config['createRegistrationFile']) {
+        //     // Create the registration file
+        //     $this->registrationFilePath = $config['registrationFileDir'] . '/register-acf-blocks-cli.php';
+        //     if (!File::exists($this->registrationFilePath)) {
+        //         $registrationFileContents = File::get($this->stubDir . '/register-acf-blocks-cli.php.stub');
+        //         $registrationFileContents = str_replace('{{BlockPath}}', $this->pathService->getNakedPath($config['blocksDirPath']), $registrationFileContents);
+        //         File::put($this->registrationFilePath, $registrationFileContents);
+        //     }
+            
+        // }
 
         $config['blockAssets'] = confirm('Create block specific CSS and JS files?');
 

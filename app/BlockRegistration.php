@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\File;
 use App\Services\ConfigService;
 use App\Services\PathService;
 use App\Timer;
+use function Laravel\Prompts\note;
 
 class BlockRegistration
 {
@@ -45,6 +46,7 @@ class BlockRegistration
     {
 
         $this->registrationFilePath = $this->configService->get('registrationFileDir') . '/register-acf-blocks-cli.php';
+       
         if (!File::exists($this->registrationFilePath)) {
             $registrationFileContents = File::get($this->stubDir . '/register-acf-blocks-cli.php.stub');
 
@@ -55,8 +57,9 @@ class BlockRegistration
             }
 
             $registrationFileContents = str_replace('{{BlockPath}}', $this->pathService->getNakedPath($this->configService->get('blocksDirPath')), $registrationFileContents);
-
+            // dd($registrationFileContents);
             File::put($this->registrationFilePath, $registrationFileContents);
+            note("Note: \nRegistration file created at: {$this->registrationFilePath} \nMake sure to include this file in your functions.php ", type: 'info');
         }
     }
 
