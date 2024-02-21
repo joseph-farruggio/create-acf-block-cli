@@ -7,3 +7,5 @@ function create_acf_block_cli_register_blocks() {
     }
 }
 add_action( 'init', 'create_acf_block_cli_register_blocks' );
+
+{{LoadFields}}

@@ -1,0 +1,5 @@
+// Loop through directories in /{{BlockPath}}/** and register each fields.php
+$block_field_groups = glob(get_template_directory() . '{{BlockPath}}/**/fields.php');
+foreach ($block_field_groups as $field_group) {
+    require $field_group;
+}

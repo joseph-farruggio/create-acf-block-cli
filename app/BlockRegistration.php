@@ -47,7 +47,15 @@ class BlockRegistration
         $this->registrationFilePath = $this->configService->get('registrationFileDir') . '/register-acf-blocks-cli.php';
         if (!File::exists($this->registrationFilePath)) {
             $registrationFileContents = File::get($this->stubDir . '/register-acf-blocks-cli.php.stub');
+
+            if ($this->configService->get('useAcfFieldBuilder')) {
+                $registrationFileContents = str_replace('{{LoadFields}}', File::get($this->stubDir . '/fields-builder.php.stub'), $registrationFileContents);
+            } else {
+                $registrationFileContents = str_replace('{{LoadFields}}', '', $registrationFileContents);
+            }
+
             $registrationFileContents = str_replace('{{BlockPath}}', $this->pathService->getNakedPath($this->configService->get('blocksDirPath')), $registrationFileContents);
+
             File::put($this->registrationFilePath, $registrationFileContents);
         }
     }
